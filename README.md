@@ -9,7 +9,7 @@ Data source: [Elexon BMRS](https://bmrs.elexon.co.uk) only. Actual wind from `FU
 
 > **Live app:** <PASTE HEROKU URL HERE>
 
-> **AI disclosure:** AI tools (Anthropic Claude) were used to help design and write this code. All code was reviewed, run and tested by the author.
+> **AI disclosure:** AI tools (Anthropic Claude) were used to help design and write this code. All code was reviewed, run and tested by the me.
 
 ---
 
