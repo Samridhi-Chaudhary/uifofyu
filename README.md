@@ -7,7 +7,7 @@ A web application for a UK energy utility's **day-ahead power-buying desk**. It 
 
 Data source: [Elexon BMRS](https://bmrs.elexon.co.uk) only. Actual wind from `FUELHH` (`fuelType=WIND`), forecasts from `WINDFOR`. Scope: purchase decisions made in **January 2026** (delivery days 2 Jan – 1 Feb 2026), national level.
 
-> **Live app (Render):** https://your-app.onrender.com
+> **Live app (Render):** https://uifofyu.onrender.com/
 
 > **AI disclosure:** AI tools (Anthropic Claude) were used to help design and write this code. All code was reviewed, run and tested by the me.
 
