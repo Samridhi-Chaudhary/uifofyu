@@ -7,7 +7,7 @@ A web application for a UK energy utility's **day-ahead power-buying desk**. It 
 
 Data source: [Elexon BMRS](https://bmrs.elexon.co.uk) only. Actual wind from `FUELHH` (`fuelType=WIND`), forecasts from `WINDFOR`. Scope: purchase decisions made in **January 2026** (delivery days 2 Jan – 1 Feb 2026), national level.
 
-> **Live app:** <PASTE HEROKU URL HERE>
+> **Live app (Render):** https://your-app.onrender.com
 
 > **AI disclosure:** AI tools (Anthropic Claude) were used to help design and write this code. All code was reviewed, run and tested by the me.
 
@@ -15,7 +15,7 @@ Data source: [Elexon BMRS](https://bmrs.elexon.co.uk) only. Actual wind from `FU
 
 ## Table of contents
 
-[Features](#features) · [Quick start](#quick-start) · [Local development](#local-development) · [Testing](#testing) · [How it works](#how-it-works) · [API](#api-reference) · [Configuration](#configuration) · [Deploy](#deployment-heroku) · [Project structure](#project-structure) · [Limitations](#known-limitations--roadmap)
+[Features](#features) · [Quick start](#quick-start) · [Local development](#local-development) · [Testing](#testing) · [How it works](#how-it-works) · [API](#api-reference) · [Configuration](#configuration) · [Deploy](#deployment-render) · [Project structure](#project-structure) · [Limitations](#known-limitations--roadmap)
 
 ## Features
 
@@ -113,20 +113,17 @@ Interactive docs: `/docs` (FastAPI Swagger UI).
 
 | Variable     | Default                             | Purpose                                 |
 | ------------ | ----------------------------------- | --------------------------------------- |
-| `PORT`       | `8000`                              | HTTP port (set automatically on Heroku) |
+| `PORT`       | `8000`                              | HTTP port (set automatically on Render) |
 | `CACHE_FILE` | system temp dir `/elexon_cache.pkl` | Where downloaded data is cached         |
 
-## Deployment (Heroku)
+## Deployment (Render)
 
-```bash
-heroku login
-heroku create <unique-app-name>
-heroku stack:set container
-git push heroku main
-heroku open
-```
+The app is deployed on [Render](https://render.com) as a Docker web service, built directly from the root `Dockerfile` (no extra configuration or environment variables).
 
-`heroku.yml` builds the root `Dockerfile`. The first request after a restart reloads data from Elexon (about a minute).
+1. Push the repo to GitHub.
+2. On Render: **New + → Web Service →** select the repo → Language **Docker** → Instance type **Free** → set Health Check Path to `/api/health` → **Create Web Service**.
+
+**Note on hosting choice:** the free Render plan puts the service to sleep after inactivity, so a scheduled GitHub Action (`.github/workflows/keep-alive.yml`) pings `/api/health` every 10 minutes. The first request after a restart can still take up to a minute while data loads from Elexon. The app is plain Docker, so it also runs on Heroku or any other container host.
 
 ## Project structure
 
@@ -146,7 +143,6 @@ heroku open
 ├── .github/workflows/ci.yml # CI
 ├── Dockerfile               # multi-stage: build React, run FastAPI
 ├── docker-compose.yml
-├── heroku.yml
 └── README.md
 ```
 
